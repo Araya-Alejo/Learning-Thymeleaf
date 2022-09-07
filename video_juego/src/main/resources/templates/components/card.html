@@ -1,0 +1,9 @@
+<div th:fragment="_card" class="card" th:each="games : ${games}">
+  <img th:src="${games.path_img}" class="card-img-top" alt="game img" src="">
+  <div class="card-body">
+    <h5 th:text="${games.title}" class="card-title"></h5>
+    <p th:text="${games.description}" class="card-text"></p>
+    <p class="card-text">Precio : <span th:text="${games.price}"></span> </p>
+    <a th:href="@{detail/{id}(id=${games.id})}" class="btn btn-light">View details</a>
+  </div>
+</div>

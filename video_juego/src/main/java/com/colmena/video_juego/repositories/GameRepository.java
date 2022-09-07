@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository< Game, Long > {
-    @Query ( value = "SELECT * FROM games WHERE games.active = true", nativeQuery = true )
+    @Query ( value = "SELECT * FROM game WHERE game.active = true", nativeQuery = true )
     List< Game > findAllByActive( );
 
-    @Query ( value = "SELECT * FROM games WHERE games.id = :id AND games.active = true", nativeQuery = true )
+    @Query ( value = "SELECT * FROM game WHERE game.id = :id AND game.active = true", nativeQuery = true )
     Optional< Game > findByIdAndActive( @Param ( "id" ) long id );
 }

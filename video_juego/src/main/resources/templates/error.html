@@ -4,20 +4,24 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <title>Start</title>
+    <title>ERROR !</title>
 </head>
 <body>
 <nav th:replace="components/navbar :: nav_bar"></nav>
-
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <div class="card-desk mt-5">
-                <div th:replace="components/card :: _card"></div>
+        <div class="col">
+            <div class="alert alert-danger mt-5" role="alert" th:if="${error}">
+                <span th:text="${error}"></span>
             </div>
+            <div class="alert alert-danger mt-5" role="alert" th:unless="${error}">
+                There was a mistake !
+            </div>
+
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
         integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
         crossorigin="anonymous"></script>
