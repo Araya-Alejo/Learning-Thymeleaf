@@ -92,4 +92,13 @@ public class GameService implements BaseService< Game > {
             throw new Exception( e.getMessage( ) );
         }
     }
+
+    @Transactional
+    public List< Game > findByTitle( String title ) throws Exception {
+        try {
+            return this.gameRepository.findByTitle( title );
+        } catch ( Exception e ) {
+            throw new Exception( e.getMessage( ) );
+        }
+    }
 }
