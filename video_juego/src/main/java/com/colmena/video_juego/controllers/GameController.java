@@ -54,4 +54,15 @@ public class GameController {
         }
     }
 
+    @GetMapping ( value = "/crud" )
+    public String crudGame( Model model) {
+        try {
+            List< Game > games = this.gameService.findAll();
+            model.addAttribute( "games", games );
+            return "views/crud";
+        } catch ( Exception e ) {
+            model.addAttribute( "error", e.getMessage( ) );
+            return "error";
+        }
+    }
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>CRUD</title>
+</head>
+<body>
+<nav th:replace="components/navbar :: nav_bar"></nav>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-3">
+            <h5 class="modal-title">CRUD Video Games</h5>
+        </div>
+        <div class="col-9 d-flex flex-row-reverse">
+            <a th:href="@{/form/video_game/0}" class="btn btn-light mb-1"> Add video game</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="game : ${games}" th:classappend="${game.active} ? table-success : table-danger">
+                    <td th:text="${game.id}"></td>
+                    <td th:text="${game.title}"></td>
+                    <td th:text="${game.price}"></td>
+                    <td th:text="${game.amount}"></td>
+                    <td>
+                        <a th:href="@{/form/video_game/{id}(id=${game.id})}" class="btn btn-warning">Edit</a>
+                        <a th:href="@{/delete/video_game/{id}(id=${game.id})}" class="btn btn-danger">Delete</a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
