@@ -15,7 +15,7 @@
                 <h2>Resultados: </h2>
                 <div th:replace="components/card :: _card"></div>
             </div>
-            <div th:unless="${games.size}">
+            <div th:unless="${games.size}" class="mt-5">
                 <h2>No results found !</h2>
             </div>
         </div>

@@ -18,5 +18,5 @@ public interface GameRepository extends JpaRepository< Game, Long > {
     Optional< Game > findByIdAndActive( @Param ( "id" ) long id );
 
     @Query ( value = "SELECT * FROM game WHERE game.title LIKE %:title% AND game.active = true", nativeQuery = true )
-    List< Game > findByTitle( @Param( "title" ) String title);
+    List< Game > findByTitle( @Param ( "title" ) String title );
 }
