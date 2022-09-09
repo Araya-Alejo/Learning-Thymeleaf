@@ -38,7 +38,7 @@ public class GameService implements BaseService< Game > {
 
     @Override
     @Transactional
-    public Game saveOne( Game entity ) throws Exception {
+    public Game save( Game entity ) throws Exception {
         try {
             return this.gameRepository.save( entity );
         } catch ( Exception e ) {
@@ -48,9 +48,8 @@ public class GameService implements BaseService< Game > {
 
     @Override
     @Transactional
-    public Game updateOne( Game entity, long id ) throws Exception {
+    public Game update( Game entity, long id ) throws Exception {
         try {
-
             return this.gameRepository.save( entity );
         } catch ( Exception e ) {
             throw new Exception( e.getMessage( ) );

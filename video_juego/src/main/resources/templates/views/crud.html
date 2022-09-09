@@ -30,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="game : ${games}" >
+                <tr th:each="game : ${games}" th:classappend="${game.active} ? table-success : table-danger">
                     <td th:text="${game.id}"></td>
                     <td th:text="${game.title}"></td>
                     <td th:text="${game.price}"></td>

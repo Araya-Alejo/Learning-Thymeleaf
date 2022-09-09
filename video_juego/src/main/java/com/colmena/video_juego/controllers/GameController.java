@@ -1,13 +1,14 @@
 package com.colmena.video_juego.controllers;
 
 import com.colmena.video_juego.entities.Game;
-import com.colmena.video_juego.services.CategoryService;
 import com.colmena.video_juego.services.GameService;
-import com.colmena.video_juego.services.StudioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,12 +17,6 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
-
-    @Autowired
-    private StudioService studioService;
-
-    @Autowired
-    private CategoryService categoryService;
 
     @GetMapping ( value = "/start" )
     public String start( Model model ) {
@@ -60,43 +55,11 @@ public class GameController {
     }
 
     @GetMapping ( value = "/crud" )
-    public String crudGame( Model model ) {
+    public String crudGame( Model model) {
         try {
-            List< Game > games = this.gameService.findAll( );
+            List< Game > games = this.gameService.findAll();
             model.addAttribute( "games", games );
             return "views/crud";
-        } catch ( Exception e ) {
-            model.addAttribute( "error", e.getMessage( ) );
-            return "error";
-        }
-    }
-
-    @GetMapping ( "/form/video_game/{id}" )
-    public String formVideoGame( Model model, @PathVariable ( "id" ) long id ) {
-        try {
-            model.addAttribute( "categories", this.categoryService.findAll( ) );
-            model.addAttribute( "studios", this.studioService.findAll( ) );
-            if ( id == 0 ) {
-                model.addAttribute( "game", new Game( ) );
-            } else {
-                model.addAttribute( "game", this.gameService.findById( id ) );
-            }
-            return "views/form/video_game";
-        } catch ( Exception e ) {
-            model.addAttribute( "error", e.getMessage( ) );
-            return "error";
-        }
-    }
-
-    @PostMapping ("/form/video_game/{id}" )
-    public String saveVideoGame( @ModelAttribute ( "game" ) Game game, Model model, @PathVariable ( "id" ) long id ) {
-        try {
-            if ( id == 0 ) {
-                this.gameService.saveOne( game );
-            } else {
-               this.gameService.updateOne( game, id );
-            }
-            return "redirect:/crud";
         } catch ( Exception e ) {
             model.addAttribute( "error", e.getMessage( ) );
             return "error";
