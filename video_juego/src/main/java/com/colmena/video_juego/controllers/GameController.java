@@ -1,9 +1,10 @@
 package com.colmena.video_juego.controllers;
 
 import com.colmena.video_juego.entities.Game;
+import com.colmena.video_juego.services.CategoryService;
 import com.colmena.video_juego.services.GameService;
+import com.colmena.video_juego.services.StudioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,10 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private StudioService studioService;
 
     @GetMapping ( value = "/start" )
     public String start( Model model ) {
@@ -65,4 +70,22 @@ public class GameController {
             return "error";
         }
     }
+
+    @GetMapping("/form/video_game/{id}")
+    public String formVideoGame(Model model,@PathVariable("id")long id){
+        try {
+            model.addAttribute("categories",this.categoryService.findAll());
+            model.addAttribute("studios",this.studioService.findAll());
+            if(id==0){
+                model.addAttribute("game",new Game());
+            }else{
+                model.addAttribute("game",this.gameService.findById(id));
+            }
+            return "views/form/video_game";
+        }catch(Exception e){
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
 }
