@@ -1,6 +1,7 @@
 package com.colmena.video_juego.entities;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Game extends Base {
     private short amount;
     private String description;
     private boolean offer;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date launch;
     private boolean active = true;
 
