@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <form th:action="@{/form/video_game/{id}(id=(${game.id} == null ? '0' : ${game.id}))}"
-                          method="post" th:object="${game}">
+                          method="post" th:object="${game}" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="form-group col-md-6">
                                 <label for="title">Title: </label>

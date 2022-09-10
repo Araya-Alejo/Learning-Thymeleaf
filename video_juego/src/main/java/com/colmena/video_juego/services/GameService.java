@@ -50,7 +50,10 @@ public class GameService implements BaseService< Game > {
     @Transactional
     public Game update( Game entity, long id ) throws Exception {
         try {
-            return this.gameRepository.save( entity );
+            Optional<Game> opt = this.gameRepository.findById(id);
+            Game videojuego = opt.get();
+            videojuego = this.gameRepository.save(entity);
+            return videojuego;
         } catch ( Exception e ) {
             throw new Exception( e.getMessage( ) );
         }
