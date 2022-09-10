@@ -37,7 +37,7 @@
                     <td th:text="${game.amount}"></td>
                     <td>
                         <a th:href="@{/form/video_game/{id}(id=${game.id})}" class="btn btn-warning">Edit</a>
-                        <a th:href="@{/delete/video_game/{id}(id=${game.id})}" class="btn btn-danger">Delete</a>
+                        <a th:if="${game.active}" th:href="@{/delete/video_game/{id}(id=${game.id})}" class="btn btn-danger">Delete</a>
                     </td>
 
                 </tr>
