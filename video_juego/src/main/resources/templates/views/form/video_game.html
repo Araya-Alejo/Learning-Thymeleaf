@@ -32,6 +32,7 @@
                             <div class="form-group col-md-12">
                                 <label for="file" class="form-label">PathImg: </label>
                                 <input type="file" class="form-control" id="file" name="file">
+                                <div class="text-danger" th:if="${errorImageMsg}" th:text="${errorImageMsg}"></div>
                             </div>
                             <div class="col-md-12">
                                 <input type="hidden" class="form-control" id="path_img" th:field="*{path_img}"

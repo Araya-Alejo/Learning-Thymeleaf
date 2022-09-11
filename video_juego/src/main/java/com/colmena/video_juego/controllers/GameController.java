@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import javax.validation.Valid;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class GameController {
@@ -96,7 +95,7 @@ public class GameController {
     }
 
     @PostMapping ( "/form/video_game/{id}" )
-    public String saveVideoGame( @Valid @ModelAttribute ( "game" ) Game game, BindingResult result, @RequestParam ( "file" ) MultipartFile file,Model model, @PathVariable ( "id" ) long id ) {
+    public String saveVideoGame( @Valid @ModelAttribute ( "game" ) Game game, BindingResult result, @RequestParam ( "file" ) MultipartFile file, Model model, @PathVariable ( "id" ) long id ) {
 
         try {
             model.addAttribute( "categories", this.categoryService.findAll( ) );
@@ -106,81 +105,79 @@ public class GameController {
             }
 
             String path = "C://photo_of_games";
-            int index = file.getOriginalFilename( ) .indexOf( "." );
+            int index = file.getOriginalFilename( ).indexOf( "." );
             String extension;
             extension = "." + file.getOriginalFilename( ).substring( index + 1 );
             String photoName = Calendar.getInstance( ).getTimeInMillis( ) + extension;
-            Path absolutePath = (id != 0 ? Paths.get(path + "//"+game.getPath_img()) :
-                                Paths.get(path+"//"+photoName));
-            if(id==0){
-//                if(file.isEmpty()){
-//                    model.addAttribute("errorImageMsg","The imagen can't be empty");
-//                    return "views/form/video_game";
-//                }
-//                if(!this.extensionValidation(file)){
-//                    model.addAttribute("errorImageMsg","Exception isn't validate");
-//                    return "views/form/video_game";
-//                }
-//                if(file.getSize() >= 15000000){
-//                    model.addAttribute("errorImageMsg","Weight exceeds 15MB");
-//                    return "views/form/video_game";
-//                }
-                Files.write(absolutePath,file.getBytes());
-                game.setPath_img(photoName);
-                this.gameService.save(game);
-            }else{
-                if(!file.isEmpty()){
-//                    if(!this.extensionValidation(file)){
-//                        model.addAttribute("errorImageMsg","Exception isn't validat");
-//                        return "views/form/video_game";
-//                    }
-//                    if(file.getSize() >= 15000000){
-//                        model.addAttribute("errorImageMsg","Weight exceeds 15MB");
-//                        return "views/form/video_game";
-//                    }
-                    Files.write(absolutePath,file.getBytes());
+            Path absolutePath = ( id != 0 ? Paths.get( path + "//" + game.getPath_img( ) ) :
+                    Paths.get( path + "//" + photoName ) );
+            if ( id == 0 ) {
+                if(file.isEmpty()){
+                    model.addAttribute("errorImageMsg","The image can't be empty");
+                    return "views/form/video_game";
                 }
-                this.gameService.update(game,id);
+                if(!this.validExtension(file)){
+                    model.addAttribute("errorImageMsg","Exception isn't validate");
+                    return "views/form/video_game";
+                }
+                if(file.getSize() >= 15000000){
+                    model.addAttribute("errorImageMsg","Weight exceeds 15MB");
+                    return "views/form/video_game";
+                }
+                Files.write( absolutePath, file.getBytes( ) );
+                game.setPath_img( photoName );
+                this.gameService.save( game );
+            } else {
+                if ( !file.isEmpty( ) ) {
+                    if(!this.validExtension(file)){
+                        model.addAttribute("errorImageMsg","Exception isn't validate");
+                        return "views/form/video_game";
+                    }
+                    if(file.getSize() >= 15000000){
+                        model.addAttribute("errorImageMsg","Weight exceeds 15MB");
+                        return "views/form/video_game";
+                    }
+                    Files.write( absolutePath, file.getBytes( ) );
+                }
+                this.gameService.update( game, id );
             }
             return "redirect:/crud";
-        }catch(Exception e){
-            model.addAttribute("error", e.getMessage());
+        } catch ( Exception e ) {
+            model.addAttribute( "error", e.getMessage( ) );
             return "error";
         }
     }
 
-        public boolean extensionValidation(MultipartFile file){
-            try {
-                ImageIO.read(file.getInputStream()).toString();
-                return true;
-            }catch (Exception e){
-                System.out.println(e);
-                return false;
-            }
+    @GetMapping ( "/delete/video_game/{id}" )
+    public String deleteVideoGame( Model model, @PathVariable ( "id" ) long id ) {
+        try {
+            model.addAttribute( "game", this.gameService.findById( id ) );
+            return "views/form/delete";
+        } catch ( Exception e ) {
+            model.addAttribute( "error", e.getMessage( ) );
+            return "error";
         }
-
-
-
-        @GetMapping ( "/delete/video_game/{id}" )
-        public String deleteVideoGame ( Model model,@PathVariable ( "id" ) long id ){
-            try {
-                model.addAttribute( "game", this.gameService.findById( id ) );
-                return "views/form/delete";
-            } catch ( Exception e ) {
-                model.addAttribute( "error", e.getMessage( ) );
-                return "error";
-            }
-        }
-
-        @PostMapping ( "/delete/video_game/{id}" )
-        public String disabledVideoGame ( Model model,@PathVariable ( "id" ) long id ){
-            try {
-                this.gameService.deleteById( id );
-                return "redirect:/crud";
-            } catch ( Exception e ) {
-                model.addAttribute( "error", e.getMessage( ) );
-                return "error";
-            }
-        }
-
     }
+
+    @PostMapping ( "/delete/video_game/{id}" )
+    public String disabledVideoGame( Model model, @PathVariable ( "id" ) long id ) {
+        try {
+            this.gameService.deleteById( id );
+            return "redirect:/crud";
+        } catch ( Exception e ) {
+            model.addAttribute( "error", e.getMessage( ) );
+            return "error";
+        }
+    }
+
+    public boolean validExtension( MultipartFile file ) {
+        try {
+            ImageIO.read( file.getInputStream( ) ).toString( );
+            return true;
+        } catch ( Exception e ) {
+            System.out.println( e );
+            return false;
+        }
+    }
+
+}
