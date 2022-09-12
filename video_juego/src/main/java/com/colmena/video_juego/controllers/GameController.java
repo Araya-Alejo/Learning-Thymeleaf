@@ -58,6 +58,7 @@ public class GameController {
         try {
             List< Game > games = this.gameService.findByTitle( title );
             model.addAttribute( "games", games );
+            model.addAttribute( "result", title );
             return "views/search";
         } catch ( Exception e ) {
             model.addAttribute( "error", e.getMessage( ) );
